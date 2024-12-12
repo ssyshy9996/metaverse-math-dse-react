@@ -4,6 +4,7 @@ import Action from "./components/Action";
 import BPanel from "./components/BPanel";
 import CPanel from "./components/CPanel";
 import { ToastContainer } from "react-toastify";
+import backgroundImage from "./background.jpeg"
 
 const calculateZoom = () => {
   const baseWidth = 1800;
@@ -38,7 +39,7 @@ const App: React.FC = () => {
     <div
       className="min-h-screen flex flex-col"
       style={{
-        backgroundImage: "url(/background.jpeg)",
+        backgroundImage: backgroundImage,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
