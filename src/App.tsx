@@ -20,7 +20,6 @@ const App: React.FC = () => {
   const [questionImage, setQuestionImage] = useState<string>("");
   const [answerResponse, setAnswerResponse] = useState<any>("");
   const [evaluation, setEvaluation] = useState<string>("");
-  const [apiResponses] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [mainQuestionValid, setMainQuestionValid] = useState<number>(0);
   const [edit, setEdit] = useState<boolean>(false);
