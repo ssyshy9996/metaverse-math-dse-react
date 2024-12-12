@@ -1,0 +1,22 @@
+.mq-textcolor .mq-text-mode {
+    display: block;
+}
+
+/* Custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar */
+    height: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Light background for the scrollbar track */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888; /* Light gray thumb color */
+    border-radius: 2px; /* Rounded corners for the thumb */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker thumb color on hover */
+}
