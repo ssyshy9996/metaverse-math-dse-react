@@ -80,7 +80,8 @@ const App: React.FC = () => {
                 answerResponse={answerResponse}
                 uploadType={uploadType}
                 disabledGenerateButton={disabledGenerateButton}
-                setEdit={setEdit} />
+                setEdit={setEdit}
+                setQuestionImage={setQuestionImage} />
               <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-1 h-full">
                 <BPanel
                   uploadType={uploadType}
