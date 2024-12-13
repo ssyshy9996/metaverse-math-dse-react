@@ -86,20 +86,16 @@ const Upload: React.FC<UploadProps> = ({
 
         if (capturedImage) {
             setDropdownOpen(false);
-            setPhotoMode(false);
         }
 
         if (dropdownOpen) {
             document.addEventListener("mousedown", handleOutsideClick);
-            setPhotoMode(false);
         } else {
             document.removeEventListener("mousedown", handleOutsideClick);
-            setPhotoMode(false);
         }
 
         return () => {
             document.removeEventListener("mousedown", handleOutsideClick);
-            setPhotoMode(false);
         };
     }, [dropdownOpen, capturedImage]);
 

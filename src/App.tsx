@@ -38,7 +38,7 @@ const App: React.FC = () => {
     <div
       className="min-h-screen flex flex-col"
       style={{
-        backgroundImage: "url(/background.png)",
+        backgroundImage: "url(/background.jpeg)",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
