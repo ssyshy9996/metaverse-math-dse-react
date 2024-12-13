@@ -80,21 +80,26 @@ const Upload: React.FC<UploadProps> = ({
                 !dropdownRef.current.contains(event.target as Node)
             ) {
                 setDropdownOpen(false);
+                setPhotoMode(false);
             }
         };
 
         if (capturedImage) {
             setDropdownOpen(false);
+            setPhotoMode(false);
         }
 
         if (dropdownOpen) {
             document.addEventListener("mousedown", handleOutsideClick);
+            setPhotoMode(false);
         } else {
             document.removeEventListener("mousedown", handleOutsideClick);
+            setPhotoMode(false);
         }
 
         return () => {
             document.removeEventListener("mousedown", handleOutsideClick);
+            setPhotoMode(false);
         };
     }, [dropdownOpen, capturedImage]);
 
@@ -133,6 +138,7 @@ const Upload: React.FC<UploadProps> = ({
                 });
             } else {
                 toast.error("Failed to capture image. Please try again.", { autoClose: 3000 });
+                setPhotoMode(false);
             }
         }
     };
