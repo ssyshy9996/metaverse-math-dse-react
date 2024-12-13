@@ -38,7 +38,7 @@ const App: React.FC = () => {
     <div
       className="min-h-screen flex flex-col"
       style={{
-        backgroundImage: "url(./background.jpeg)",
+        backgroundImage: "url(https://master.d2nkcyl1kzlnax.amplifyapp.com/background.jpeg)",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}

@@ -170,7 +170,7 @@ const Upload: React.FC<UploadProps> = ({
     const handleGetSolution = async (payload: any) => {
         setIsLoading(true);
         try {
-            const response = await fetch("http://ken6a03.pythonanywhere.com/api/solution/solve", {
+            const response = await fetch("https://ken6a03.pythonanywhere.com/api/solution/solve", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -215,7 +215,7 @@ const Upload: React.FC<UploadProps> = ({
                     image_data: `data:image/png;base64,${base64Image}`,
                 };
 
-                const response = await fetch("http://ken6a03.pythonanywhere.com/api/ocr/extract", {
+                const response = await fetch("https://ken6a03.pythonanywhere.com/api/ocr/extract", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -232,7 +232,7 @@ const Upload: React.FC<UploadProps> = ({
                     alert(`Request failed: ${data.error || "Unknown error"}`);
                 }
             } else if (uploadType === "Answer") {
-                const response = await axios.post("http://ken6a03.pythonanywhere.com/api/ocr/extract_answer", {
+                const response = await axios.post("https://ken6a03.pythonanywhere.com/api/ocr/extract_answer", {
                     image_data: `data:image/png;base64,${base64Image}`,
                 });
 
@@ -246,7 +246,7 @@ const Upload: React.FC<UploadProps> = ({
                     };
 
                     try {
-                        const response = await fetch("http://ken6a03.pythonanywhere.com/api/solution/evaluate", {
+                        const response = await fetch("https://ken6a03.pythonanywhere.com/api/solution/evaluate", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify(payload),
