@@ -59,12 +59,12 @@ const Upload: React.FC<UploadProps> = ({
 
     useEffect(() => {
         navigator.mediaDevices
-            // .getUserMedia({
-            //     video: {
-            //         facingMode: "environment" // This will use the back camera on mobile
-            //     }
-            // })     
-            .getUserMedia({ video: true })
+            .getUserMedia({
+                video: {
+                    facingMode: "environment" // This will use the back camera on mobile
+                }
+            })     
+            // .getUserMedia({ video: true })
             .then(() => {
                 setCameraAccessible(true);
             })
@@ -289,7 +289,7 @@ const Upload: React.FC<UploadProps> = ({
     };
 
     return (
-        <div className="w-[90%] flex flex-col gap-4 sm:m-10 m-4 sm:w-[27%] h-[500px] sm:h-auto">
+        <div className="w-[90%] flex flex-col gap-4 sm:m-10 m-5 sm:w-[27%] h-[500px] sm:h-auto">
             <div className="h-full flex flex-col justify-between mb-4">
                 <div className="flex items-center gap-2 cursor-pointer" onClick={changeUploadType}>
                     <h2 className="text-white font-bold text-3xl ml-3 fade-in-out">
@@ -348,7 +348,7 @@ const Upload: React.FC<UploadProps> = ({
                                     audio={false}
                                     ref={webcamRef}
                                     screenshotFormat="image/jpeg"
-                                    // videoConstraints={{ facingMode: "environment" }}
+                                    videoConstraints={{ facingMode: "environment" }}
                                     className="rounded shadow"
                                 />
                                 <button
