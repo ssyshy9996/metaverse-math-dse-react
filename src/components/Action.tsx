@@ -16,10 +16,11 @@ interface Props {
     capturedImageType: string;
     uploadType: string;
     disabledGenerateButton: boolean;
+    setQuestionImage: (image: string) => void;
 }
 
 
-const Action: React.FC<Props> = ({ setAnswerResponse, setCapturedImageType, setUploadType, setEdit, setSetSimilarQuestion, setSolutionResponses, setIsLoading, setEvaluation, disabledGenerateButton, solutionResponses, uploadType, answerResponse, edit, questionImage }) => {
+const Action: React.FC<Props> = ({ setQuestionImage, setAnswerResponse, setCapturedImageType, setUploadType, setEdit, setSetSimilarQuestion, setSolutionResponses, setIsLoading, setEvaluation, disabledGenerateButton, solutionResponses, uploadType, answerResponse, edit, questionImage }) => {
 
     const handleGetSolution = async () => {
         setIsLoading(true)
@@ -71,8 +72,10 @@ const Action: React.FC<Props> = ({ setAnswerResponse, setCapturedImageType, setU
                 setSetSimilarQuestion(data);
                 setUploadType("Answer")
                 setCapturedImageType("")
+                setQuestionImage("")
                 setEvaluation("")
                 setAnswerResponse("")
+                setSolutionResponses("")
             } else {
                 console.error("Error:", data);
                 alert(`Request failed: ${data.error || "Unknown error"}`);

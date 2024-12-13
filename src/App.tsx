@@ -38,11 +38,12 @@ const App: React.FC = () => {
     <div
       className="min-h-screen flex flex-col"
       style={{
-        background: "url('/background.jpeg')",
+        background: "url('./background.jpeg')",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
     >
+      <img src="url('./background.jpeg')" />
       <div className="zoom-container m-4" style={{ zoom }}>
         <div className="min-h-screen flex-grow flex flex-col sm:flex-row justify-around">
           {/* Upload */}
