@@ -38,70 +38,66 @@ const App: React.FC = () => {
     <div
       className="min-h-screen flex flex-col"
       style={{
-        background: "url('/background.png')",
+        backgroundImage: "url(/background.jpeg)",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
     >
-      <img src="url('./background.jpg')" />
-      <div className="zoom-container m-4" style={{ zoom }}>
-        <div className="min-h-screen flex-grow flex flex-col sm:flex-row justify-around">
-          {/* Upload */}
-          <Upload
-            setCapturedImageType={setCapturedImageType}
-            questionImage={questionImage}
-            setIsLoading={setIsLoading}
-            setSolutionResponses={setSolutionResponses}
-            setQuestionImage={setQuestionImage}
-            setAnswerResponse={setAnswerResponse}
-            setEvaluation={setEvaluation}
-            uploadType={uploadType}
-            setUploadType={setUploadType}
-            mainQuestionValid={mainQuestionValid}
-            setDisabledGenerateButton={setDisabledGenerateButton}
-          />
+      <div className="min-h-screen flex-grow flex flex-col sm:flex-row justify-around">
+        {/* Upload */}
+        <Upload
+          setCapturedImageType={setCapturedImageType}
+          questionImage={questionImage}
+          setIsLoading={setIsLoading}
+          setSolutionResponses={setSolutionResponses}
+          setQuestionImage={setQuestionImage}
+          setAnswerResponse={setAnswerResponse}
+          setEvaluation={setEvaluation}
+          uploadType={uploadType}
+          setUploadType={setUploadType}
+          mainQuestionValid={mainQuestionValid}
+          setDisabledGenerateButton={setDisabledGenerateButton}
+        />
 
-          {/* Actions */}
-          <div className="w-full sm:w-[67%] flex flex-col justify-between m-10">
-            <div className="relative rounded-md p-4 flex-grow  mt-5">
-              {/* {Actions} */}
-              <Action
-                edit={edit}
-                capturedImageType={capturedImageType}
-                setCapturedImageType={setCapturedImageType}
-                setUploadType={setUploadType}
-                solutionResponses={solutionResponses}
-                setSolutionResponses={setSolutionResponses}
-                questionImage={questionImage}
-                setIsLoading={setIsLoading}
-                setSetSimilarQuestion={setSetSimilarQuestion}
-                setEvaluation={setEvaluation}
-                setAnswerResponse={setAnswerResponse}
-                answerResponse={answerResponse}
+        {/* Actions */}
+        <div className="w-full sm:w-[67%] w-[90%] flex flex-col justify-between  sm:m-10 m-4">
+          <div className="relative rounded-md p-4 flex-grow  mt-5">
+            {/* {Actions} */}
+            <Action
+              edit={edit}
+              capturedImageType={capturedImageType}
+              setCapturedImageType={setCapturedImageType}
+              setUploadType={setUploadType}
+              solutionResponses={solutionResponses}
+              setSolutionResponses={setSolutionResponses}
+              questionImage={questionImage}
+              setIsLoading={setIsLoading}
+              setSetSimilarQuestion={setSetSimilarQuestion}
+              setEvaluation={setEvaluation}
+              setAnswerResponse={setAnswerResponse}
+              answerResponse={answerResponse}
+              uploadType={uploadType}
+              disabledGenerateButton={disabledGenerateButton}
+              setEdit={setEdit} />
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-1 h-full">
+              <BPanel
                 uploadType={uploadType}
-                disabledGenerateButton={disabledGenerateButton}
-                setEdit={setEdit}
-                setQuestionImage={setQuestionImage} />
-              <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-1 h-full">
-                <BPanel
-                  uploadType={uploadType}
-                  mainQuestionValid={mainQuestionValid}
-                  edit={edit}
-                  answerResponse={answerResponse}
-                  similarQuestion={similarQuestion}
-                  questionImage={questionImage}
-                  isLoading={isLoading}
-                  setAnswerResponse={setAnswerResponse}
-                  setQuestionImage={setQuestionImage}
-                  setIsLoading={setIsLoading}
-                  setMainQuestionValid={setMainQuestionValid}
-                />
-                <CPanel
-                  uploadType={uploadType}
-                  evaluation={evaluation}
-                  solutionResponses={solutionResponses}
-                  isLoading={isLoading} />
-              </div>
+                mainQuestionValid={mainQuestionValid}
+                edit={edit}
+                answerResponse={answerResponse}
+                similarQuestion={similarQuestion}
+                questionImage={questionImage}
+                isLoading={isLoading}
+                setAnswerResponse={setAnswerResponse}
+                setQuestionImage={setQuestionImage}
+                setIsLoading={setIsLoading}
+                setMainQuestionValid={setMainQuestionValid}
+              />
+              <CPanel
+                uploadType={uploadType}
+                evaluation={evaluation}
+                solutionResponses={solutionResponses}
+                isLoading={isLoading} />
             </div>
           </div>
         </div>

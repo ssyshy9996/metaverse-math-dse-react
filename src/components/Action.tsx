@@ -16,11 +16,10 @@ interface Props {
     capturedImageType: string;
     uploadType: string;
     disabledGenerateButton: boolean;
-    setQuestionImage: (image: string) => void;
 }
 
 
-const Action: React.FC<Props> = ({ setQuestionImage, setAnswerResponse, setCapturedImageType, setUploadType, setEdit, setSetSimilarQuestion, setSolutionResponses, setIsLoading, setEvaluation, disabledGenerateButton, solutionResponses, uploadType, answerResponse, edit, questionImage }) => {
+const Action: React.FC<Props> = ({ setAnswerResponse, setCapturedImageType, setUploadType, setEdit, setSetSimilarQuestion, setSolutionResponses, setIsLoading, setEvaluation, disabledGenerateButton, solutionResponses, uploadType, answerResponse, edit, questionImage }) => {
 
     const handleGetSolution = async () => {
         setIsLoading(true)
@@ -28,7 +27,7 @@ const Action: React.FC<Props> = ({ setQuestionImage, setAnswerResponse, setCaptu
             question: questionImage,
         };
         try {
-            const response = await fetch("https://ken6a03.pythonanywhere.com/api/solution/solve", {
+            const response = await fetch("http://ken6a03.pythonanywhere.com/api/solution/solve", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -59,7 +58,7 @@ const Action: React.FC<Props> = ({ setQuestionImage, setAnswerResponse, setCaptu
         };
         setIsLoading(true)
         try {
-            const response = await fetch("https://ken6a03.pythonanywhere.com/api/practice/generate", {
+            const response = await fetch("http://ken6a03.pythonanywhere.com/api/practice/generate", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -72,10 +71,8 @@ const Action: React.FC<Props> = ({ setQuestionImage, setAnswerResponse, setCaptu
                 setSetSimilarQuestion(data);
                 setUploadType("Answer")
                 setCapturedImageType("")
-                setQuestionImage("")
                 setEvaluation("")
                 setAnswerResponse("")
-                setSolutionResponses("")
             } else {
                 console.error("Error:", data);
                 alert(`Request failed: ${data.error || "Unknown error"}`);
@@ -96,7 +93,7 @@ const Action: React.FC<Props> = ({ setQuestionImage, setAnswerResponse, setCaptu
         };
 
         try {
-            const response = await fetch("https://ken6a03.pythonanywhere.com/api/solution/evaluate", {
+            const response = await fetch("http://ken6a03.pythonanywhere.com/api/solution/evaluate", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
@@ -122,7 +119,7 @@ const Action: React.FC<Props> = ({ setQuestionImage, setAnswerResponse, setCaptu
     };
     console.log(disabledGenerateButton)
     return (
-        <div className="absolute flex justify-around items-center bg-[#152143] rounded-3xl m-[auto] w-[54%] left-[23%] mt-[-82px] h-[80px] z-[10]">
+        <div className="absolute flex justify-around items-center bg-[#152143] rounded-3xl m-[auto] sm:w-[54%] left-[5%] sm:left-[23%] mt-[-82px] h-[80px] z-[10] w-[90%]">
             <h2 className="text-yellow-500 font-bold text-2xl">ACTION</h2>
             <div className="flex gap-4">
                 {!edit &&

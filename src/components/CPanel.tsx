@@ -92,7 +92,7 @@ const CPanel: React.FC<Props> = ({ evaluation, isLoading, solutionResponses, upl
     }, [solutionResponses]);
 
     return (
-        <div className="col-span-2 border-[15px] border-[#152143] rounded-2xl bg-gray-50 overflow-auto  custom-scrollbar">
+        <div className="sm:h-full min-h-[500px] h-[100%] col-span-2 border-[15px] border-[#152143] rounded-2xl bg-gray-50 overflow-auto custom-scrollbar">
             <div className='relative h-full w-full p-4'>
                 {isLoading && <ProgressBar isLoading={isLoading} />}
                 <h3 className="font-bold text-4xl ml-2 text-end">C</h3>
