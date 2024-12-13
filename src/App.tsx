@@ -43,7 +43,7 @@ const App: React.FC = () => {
         backgroundSize: "cover",
       }}
     >
-      <img src="url('./background.jpeg')" />
+      <img src="url('./background.jpg')" />
       <div className="zoom-container m-4" style={{ zoom }}>
         <div className="min-h-screen flex-grow flex flex-col sm:flex-row justify-around">
           {/* Upload */}
