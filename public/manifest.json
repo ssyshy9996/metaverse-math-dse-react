@@ -8,8 +8,8 @@
       "type": "image/x-icon"
     },
     {
-      "src": "background.jpeg",
-      "type": "image/jpeg",
+      "src": "background.png",
+      "type": "image/png",
       "sizes": "1920x1080"
     },
     {
