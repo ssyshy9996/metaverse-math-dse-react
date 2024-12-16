@@ -100,8 +100,8 @@ const BPanel: React.FC<Props> = ({ answerResponse, similarQuestion, questionImag
 
 
     useEffect(() => {
-        console.log("Editing:", edit);
-        console.log("Current questionImage:", questionImage);
+        // console.log("Editing:", edit);
+        // console.log("Current questionImage:", questionImage);
 
         const tmpgeneratedQuestion = similarQuestion?.questions || "";
         const tmpmainquestion = questionImage || "";
@@ -136,14 +136,14 @@ const BPanel: React.FC<Props> = ({ answerResponse, similarQuestion, questionImag
         setFinalAnswer(normalizedFinalAnswer);
         setGeneratedQuestion(tmpgeneratedQuestion);
 
-        console.log(`mainquestion :`, tmpmainquestion);
-        console.log(`normalized:  `, normalizedMainQuestion);
+        // console.log(`mainquestion :`, tmpmainquestion);
+        // console.log(`normalized:  `, normalizedMainQuestion);
         console.log(tmpanswerSteps);
         console.log(edit)
     }, [questionImage, similarQuestion, answerResponse, edit]);
 
     return (
-        <div className="col-span-1 border-[15px] border-[#152143] rounded-2xl bg-gray-50 overflow-auto custom-scrollbar sm:h-full  min-h-[500px] h-[100%]">
+        <div className="sm:col-span-1 border-[15px] border-[#152143] rounded-2xl bg-gray-50 overflow-auto custom-scrollbar min-h-[300px]">
             <div className='relative h-full w-full p-4'>
                 {isLoading && <ProgressBar isLoading={isLoading} />}
                 <h3 className="text-start font-bold text-4xl mr-2">B</h3>

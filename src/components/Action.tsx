@@ -27,7 +27,7 @@ const Action: React.FC<Props> = ({ setAnswerResponse, setCapturedImageType, setU
             question: questionImage,
         };
         try {
-            const response = await fetch("http://ken6a03.pythonanywhere.com/api/solution/solve", {
+            const response = await fetch("https://ken6a03.pythonanywhere.com/api/solution/solve", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const Action: React.FC<Props> = ({ setAnswerResponse, setCapturedImageType, setU
         };
         setIsLoading(true)
         try {
-            const response = await fetch("http://ken6a03.pythonanywhere.com/api/practice/generate", {
+            const response = await fetch("https://ken6a03.pythonanywhere.com/api/practice/generate", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -73,6 +73,7 @@ const Action: React.FC<Props> = ({ setAnswerResponse, setCapturedImageType, setU
                 setCapturedImageType("")
                 setEvaluation("")
                 setAnswerResponse("")
+                setSolutionResponses("")
             } else {
                 console.error("Error:", data);
                 alert(`Request failed: ${data.error || "Unknown error"}`);
@@ -93,7 +94,7 @@ const Action: React.FC<Props> = ({ setAnswerResponse, setCapturedImageType, setU
         };
 
         try {
-            const response = await fetch("http://ken6a03.pythonanywhere.com/api/solution/evaluate", {
+            const response = await fetch("https://ken6a03.pythonanywhere.com/api/solution/evaluate", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
@@ -117,9 +118,9 @@ const Action: React.FC<Props> = ({ setAnswerResponse, setCapturedImageType, setU
             setIsLoading(false); // Stop loading
         }
     };
-    console.log(disabledGenerateButton)
+    // console.log(disabledGenerateButton)
     return (
-        <div className="absolute flex justify-around items-center bg-[#152143] rounded-3xl m-[auto] sm:w-[54%] left-[5%] sm:left-[23%] mt-[-82px] h-[80px] z-[10] w-[90%]">
+        <div className="absolute sm:top-[calc(5%-3.6rem)] top-[-1.5rem] flex justify-around items-center bg-[#152143] rounded-3xl m-[auto] sm:w-[54%] left-[5%] sm:left-[23%] h-[70px] z-[10] w-[90%]">
             <h2 className="text-yellow-500 font-bold text-2xl">ACTION</h2>
             <div className="flex gap-4">
                 {!edit &&
