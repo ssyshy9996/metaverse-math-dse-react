@@ -78,7 +78,7 @@ const App: React.FC = () => {
               uploadType={uploadType}
               disabledGenerateButton={disabledGenerateButton}
               setEdit={setEdit} />
-            <div className="absolute bottom-[calc(5%+1rem)] grid grid-cols-1 sm:grid-cols-3 gap-1 h-[calc(90%-2rem)] w-[90%] left-[5%] h-full">
+            <div className="absolute bottom-[calc(5%+1rem)] grid grid-cols-1 sm:grid-cols-3 gap-1 h-[calc(90%-2rem)] w-[90%] left-[5%]">
               <BPanel
                 uploadType={uploadType}
                 mainQuestionValid={mainQuestionValid}
