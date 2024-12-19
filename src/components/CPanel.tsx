@@ -42,11 +42,11 @@ const RenderEvaluation: React.FC<{ evaluations: EvaluationsProps[] }> = ({
           >
             {normalizeSlashes(evaluation.comment)}
           </StaticMathField>
-          <StaticMathField
+          {/* <StaticMathField
             style={{ color: evaluation.correct === false ? "red" : "black" }}
           >
             {normalizeSlashes(evaluation.step)}
-          </StaticMathField>
+          </StaticMathField> */}
         </div>
       ))}
     </div>
@@ -142,7 +142,7 @@ const CPanel: React.FC<Props> = ({
             }}
           >
             <h1
-              style={{ 
+              style={{
                 color: "blue",
                 fontWeight: "bold",
                 fontSize: "25px",
@@ -158,7 +158,7 @@ const CPanel: React.FC<Props> = ({
           <div className="mb-3" style={{ pointerEvents: "none" }}>
             <h4 className="text-lg font-medium mb-2">Topic:</h4>
             <h4
-              style={{ 
+              style={{
                 color: "blue",
                 fontWeight: "bold",
                 fontSize: "25px",
