@@ -17,6 +17,7 @@ interface UploadProps {
   uploadType: string;
   mainQuestionValid: number;
   questionImage: string;
+  similarQuestion: string;
 }
 
 const Upload: React.FC<UploadProps> = ({
@@ -29,6 +30,7 @@ const Upload: React.FC<UploadProps> = ({
   setDisabledGenerateButton,
   setCapturedImageType,
   mainQuestionValid,
+  similarQuestion,
   uploadType,
   questionImage,
 }) => {
@@ -58,12 +60,12 @@ const Upload: React.FC<UploadProps> = ({
 
   useEffect(() => {
     navigator.mediaDevices
-      // .getUserMedia({
-      //     video: {
-      //         facingMode: "environment" // This will use the back camera on mobile
-      //     }
-      // })
-      .getUserMedia({ video: true })
+      .getUserMedia({
+          video: {
+              facingMode: "environment" // This will use the back camera on mobile
+          }
+      })
+      // .getUserMedia({ video: true })
       .then(() => {
         setCameraAccessible(true);
       })
@@ -254,6 +256,7 @@ const Upload: React.FC<UploadProps> = ({
           setAnswerResponse(responseText);
 
           const payload = {
+            question: similarQuestion,
             final_answer: responseText?.final_answer,
             steps: responseText?.steps,
           };
@@ -372,7 +375,7 @@ const Upload: React.FC<UploadProps> = ({
                   audio={false}
                   ref={webcamRef}
                   screenshotFormat="image/jpeg"
-                  // videoConstraints={{ facingMode: "environment" }}
+                  videoConstraints={{ facingMode: "environment" }}
                   className="rounded shadow"
                 />
                 <button

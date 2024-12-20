@@ -57,6 +57,7 @@ const App: React.FC = () => {
           setUploadType={setUploadType}
           mainQuestionValid={mainQuestionValid}
           setDisabledGenerateButton={setDisabledGenerateButton}
+          similarQuestion={similarQuestion}
         />
         {/* Actions */}
         <div className="w-full sm:w-[67%] flex flex-col justify-between h-full min-h-screen">
