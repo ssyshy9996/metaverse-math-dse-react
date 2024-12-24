@@ -28,6 +28,72 @@ const App: React.FC = () => {
   const [disabledGenerateButton, setDisabledGenerateButton] =
     useState<boolean>(false);
 
+  var question_bank_id: string = "";
+
+  useEffect(() => {
+    if (solutionResponses) {
+      saveQuestionWithSolution();
+    }
+  }, [solutionResponses]);
+  const saveQuestionWithSolution = async () => {
+    const payload = {
+      question: questionImage,
+      solution: solutionResponses,
+    };
+    console.log(payload);
+    try {
+      const response = await fetch(
+        "https://ken6a03.pythonanywhere.com/api/db/question_bank/add",
+        // "http://127.0.0.1:5000/api/db/question_bank/add",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        question_bank_id = data.id;
+        console.log("Question saved:", data);
+      } else {
+        console.error("Failed to save question:", data.error);
+      }
+    } catch (error) {
+      console.error("Failed to save question:", error);
+    }
+  };
+
+  const removeQuestionWithSolution = async () => {
+    if (!question_bank_id) {
+      console.log("No question bank ID available to remove.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://ken6a03.pythonanywhere.com/api/db/question_bank/delete/${question_bank_id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        console.log("Question removed successfully.");
+        question_bank_id = ""; // Reset the ID after successful removal
+      } else {
+        const data = await response.json();
+        console.error("Failed to remove question:", data.error);
+      }
+    } catch (error) {
+      console.error("Failed to remove question:", error);
+    }
+  };
+
   useEffect(() => {
     const handleResize = () => setZoom(calculateZoom());
     window.addEventListener("resize", handleResize);
@@ -58,6 +124,7 @@ const App: React.FC = () => {
           mainQuestionValid={mainQuestionValid}
           setDisabledGenerateButton={setDisabledGenerateButton}
           similarQuestion={similarQuestion}
+          saveQuestionWithSolution={saveQuestionWithSolution}
         />
         {/* Actions */}
         <div className="w-full sm:w-[67%] flex flex-col justify-between h-full min-h-screen">
@@ -78,7 +145,9 @@ const App: React.FC = () => {
               answerResponse={answerResponse}
               uploadType={uploadType}
               disabledGenerateButton={disabledGenerateButton}
-              setEdit={setEdit} />
+              setEdit={setEdit}
+              removeQuestionWithSolution={removeQuestionWithSolution}
+            />
             <div className="absolute bottom-[calc(5%+1rem)] grid grid-cols-1 sm:grid-cols-3 gap-1 h-[calc(90%-2rem)] w-[90%] left-[5%]">
               <BPanel
                 uploadType={uploadType}

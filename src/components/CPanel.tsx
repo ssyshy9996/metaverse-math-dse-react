@@ -104,7 +104,7 @@ const CPanel: React.FC<Props> = ({
 
   useEffect(() => {
     const tmpsolutionFinalAnswer =
-      solutionResponses?.solution?.["final answer"];
+      solutionResponses?.solution?.["final_answer"];
     var tmpsteps = solutionResponses?.solution?.steps || [];
     const tmptopic = solutionResponses?.solution?.topic;
     var normalizedSolutionFinalAnswer = normalizeSlashes(

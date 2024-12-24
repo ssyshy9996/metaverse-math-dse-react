@@ -16,10 +16,11 @@ interface Props {
     capturedImageType: string;
     uploadType: string;
     disabledGenerateButton: boolean;
+    removeQuestionWithSolution: () => void
 }
 
 
-const Action: React.FC<Props> = ({ setAnswerResponse, setCapturedImageType, setUploadType, setEdit, setSetSimilarQuestion, setSolutionResponses, setIsLoading, setEvaluation, disabledGenerateButton, solutionResponses, uploadType, answerResponse, edit, questionImage }) => {
+const Action: React.FC<Props> = ({ setAnswerResponse, setCapturedImageType, setUploadType, setEdit, setSetSimilarQuestion, setSolutionResponses, setIsLoading, setEvaluation, disabledGenerateButton, solutionResponses, uploadType, answerResponse, edit, questionImage ,removeQuestionWithSolution}) => {
 
     const handleGetSolution = async () => {
         setIsLoading(true)
@@ -124,7 +125,10 @@ const Action: React.FC<Props> = ({ setAnswerResponse, setCapturedImageType, setU
             <h2 className="text-yellow-500 font-bold text-2xl">ACTION</h2>
             <div className="flex gap-4">
                 {!edit &&
-                    <button onClick={() => setEdit(true)} className="px-2 py-1 bg-[#6aa4a5] text-black font-bold rounded hover:bg-gray-400">
+                    <button onClick={() => {
+                        setEdit(true)
+                        removeQuestionWithSolution();
+                    }} className="px-2 py-1 bg-[#6aa4a5] text-black font-bold rounded hover:bg-gray-400">
                         EDIT
                     </button>
                 }

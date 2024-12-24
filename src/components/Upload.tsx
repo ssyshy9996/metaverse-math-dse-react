@@ -14,6 +14,7 @@ interface UploadProps {
   setSolutionResponses: (response: any) => void;
   setCapturedImageType: (type: string) => void;
   setDisabledGenerateButton: (status: boolean) => void;
+  saveQuestionWithSolution: () => void;
   uploadType: string;
   mainQuestionValid: number;
   questionImage: string;
@@ -33,6 +34,7 @@ const Upload: React.FC<UploadProps> = ({
   similarQuestion,
   uploadType,
   questionImage,
+  saveQuestionWithSolution,
 }) => {
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -61,9 +63,9 @@ const Upload: React.FC<UploadProps> = ({
   useEffect(() => {
     navigator.mediaDevices
       .getUserMedia({
-          video: {
-              facingMode: "environment" // This will use the back camera on mobile
-          }
+        video: {
+          facingMode: "environment", // This will use the back camera on mobile
+        },
       })
       // .getUserMedia({ video: true })
       .then(() => {
@@ -81,13 +83,13 @@ const Upload: React.FC<UploadProps> = ({
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setDropdownOpen(false);
-                setPhotoMode(false);
+        setPhotoMode(false);
       }
     };
 
     if (capturedImage) {
       setDropdownOpen(false);
-            setPhotoMode(false);
+      setPhotoMode(false);
     }
 
     if (dropdownOpen) {
@@ -141,7 +143,7 @@ const Upload: React.FC<UploadProps> = ({
         toast.error("Failed to capture image. Please try again.", {
           autoClose: 3000,
         });
-                setPhotoMode(false);
+        setPhotoMode(false);
       }
     }
   };
@@ -180,16 +182,19 @@ const Upload: React.FC<UploadProps> = ({
     };
   };
 
-    const handleGetSolution = async (payload: any) => {
-        setIsLoading(true);
-        try {
-            const response = await fetch("https://ken6a03.pythonanywhere.com/api/solution/solve", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
-            });
+  const handleGetSolution = async (payload: any) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        "https://ken6a03.pythonanywhere.com/api/solution/solve",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       const data = await response.json();
 
@@ -230,26 +235,33 @@ const Upload: React.FC<UploadProps> = ({
           image_data: `data:image/png;base64,${base64Image}`,
         };
 
-                const response = await fetch("https://ken6a03.pythonanywhere.com/api/ocr/extract", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                });
+        const response = await fetch(
+          "https://ken6a03.pythonanywhere.com/api/ocr/extract",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          }
+        );
 
-                const data = await response.json();
-                if (response.ok) {
-                    const tmpQuestionImage = data?.text
-                    setQuestionImage(tmpQuestionImage);
-                } else {
-                    console.error("Error:", data);
-                    alert(`Request failed: ${data.error || "Unknown error"}`);
-                }
-            } else if (uploadType === "Answer") {
-                const response = await axios.post("https://ken6a03.pythonanywhere.com/api/ocr/extract_answer", {
-                    image_data: `data:image/png;base64,${base64Image}`,
-                });
+        const data = await response.json();
+        if (response.ok) {
+          console.log("tmpQuestionImage" + data?.text);
+          const tmpQuestionImage = data?.text;
+          setQuestionImage(tmpQuestionImage);
+        } else {
+          console.error("Error:", data);
+          alert(`Request failed: ${data.error || "Unknown error"}`);
+        }
+      } else if (uploadType === "Answer") {
+        const response = await axios.post(
+          "https://ken6a03.pythonanywhere.com/api/ocr/extract_answer",
+          {
+            image_data: `data:image/png;base64,${base64Image}`,
+          }
+        );
 
         if (response.data && response.data.text) {
           const responseText = response.data.text;
@@ -261,12 +273,15 @@ const Upload: React.FC<UploadProps> = ({
             steps: responseText?.steps,
           };
 
-                    try {
-                        const response = await fetch("https://ken6a03.pythonanywhere.com/api/solution/evaluate", {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify(payload),
-                        });
+          try {
+            const response = await fetch(
+              "https://ken6a03.pythonanywhere.com/api/solution/evaluate",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+              }
+            );
 
             const data = await response.json();
             if (response.ok) {
