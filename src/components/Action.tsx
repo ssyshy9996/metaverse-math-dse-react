@@ -17,10 +17,11 @@ interface Props {
     uploadType: string;
     disabledGenerateButton: boolean;
     removeQuestionWithSolution: () => void
+    similarQuestion: string;
 }
 
 
-const Action: React.FC<Props> = ({ setAnswerResponse, setCapturedImageType, setUploadType, setEdit, setSetSimilarQuestion, setSolutionResponses, setIsLoading, setEvaluation, disabledGenerateButton, solutionResponses, uploadType, answerResponse, edit, questionImage ,removeQuestionWithSolution}) => {
+const Action: React.FC<Props> = ({ setAnswerResponse, setCapturedImageType, setUploadType, setEdit, setSetSimilarQuestion, setSolutionResponses, setIsLoading, setEvaluation, disabledGenerateButton, solutionResponses, uploadType, answerResponse, edit, questionImage ,removeQuestionWithSolution,similarQuestion}) => {
 
     const handleGetSolution = async () => {
         setIsLoading(true)
@@ -90,6 +91,7 @@ const Action: React.FC<Props> = ({ setAnswerResponse, setCapturedImageType, setU
     const postEvaluation = async () => {
         setIsLoading(true)
         const payload = {
+            question: similarQuestion,
             final_answer: answerResponse?.final_answer,
             steps: answerResponse?.steps,
         };

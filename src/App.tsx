@@ -16,7 +16,7 @@ const calculateZoom = () => {
 const App: React.FC = () => {
   const [uploadType, setUploadType] = useState<string>("Question");
   const [solutionResponses, setSolutionResponses] = useState<string>("");
-  const [similarQuestion, setSetSimilarQuestion] = useState<string>("");
+  const [similarQuestion, setSimilarQuestion] = useState<string>("");
   const [questionImage, setQuestionImage] = useState<string>("");
   const [answerResponse, setAnswerResponse] = useState<any>("");
   const [evaluation, setEvaluation] = useState<string>("");
@@ -139,7 +139,7 @@ const App: React.FC = () => {
               setSolutionResponses={setSolutionResponses}
               questionImage={questionImage}
               setIsLoading={setIsLoading}
-              setSetSimilarQuestion={setSetSimilarQuestion}
+              setSetSimilarQuestion={setSimilarQuestion}
               setEvaluation={setEvaluation}
               setAnswerResponse={setAnswerResponse}
               answerResponse={answerResponse}
@@ -147,6 +147,7 @@ const App: React.FC = () => {
               disabledGenerateButton={disabledGenerateButton}
               setEdit={setEdit}
               removeQuestionWithSolution={removeQuestionWithSolution}
+              similarQuestion={similarQuestion}
             />
             <div className="absolute bottom-[calc(5%+1rem)] grid grid-cols-1 sm:grid-cols-3 gap-1 h-[calc(90%-2rem)] w-[90%] left-[5%]">
               <BPanel
@@ -167,6 +168,11 @@ const App: React.FC = () => {
                 evaluation={evaluation}
                 solutionResponses={solutionResponses}
                 isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                questionImage={questionImage}
+                setSolutionResponses={setSolutionResponses}
+                setUploadType={setUploadType}
+                setEvaluation={setEvaluation}
               />
             </div>
           </div>

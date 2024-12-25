@@ -9,6 +9,11 @@ interface Props {
   isLoading: boolean;
   solutionResponses: any;
   uploadType: string;
+  setIsLoading: (loading: boolean) => void;
+  questionImage: string;
+  setSolutionResponses: (response: any) => void;
+  setUploadType: (type: string) => void;
+  setEvaluation: (evaluation: any) => void;
 }
 
 interface EvaluationsProps {
@@ -33,20 +38,48 @@ const RenderEvaluation: React.FC<{ evaluations: EvaluationsProps[] }> = ({
     return <div>No evaluations available.</div>;
   }
 
+  const handleSteps = (evaluation: EvaluationsProps[]) => {
+    const newSteps: any[] = [];
+
+    evaluation.forEach((step) => {
+      const { comment, correct, step: currentStep } = step;
+
+      // Check if the comment contains \\newline
+      if (comment.includes("\\newline")) {
+        // Split comment by \\newline
+        const parts = comment.split("\\newline").map((part) => part.trim());
+
+        // Add each part as a new step
+        parts.forEach((part) => {
+          newSteps.push({
+            comment: part,
+            correct,
+            step: currentStep,
+          });
+        });
+      } else {
+        // No \\newline, just add the step as is
+        newSteps.push(step);
+      }
+    });
+
+    console.log("newEvaluations:", newSteps);
+    return newSteps;
+  };
+
+  console.log("oldEvaluations:", evaluations);
+  // Process steps to handle \\newline
+  const processedEvaluations = handleSteps(evaluations);
+
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      {evaluations.map((evaluation, index) => (
+      {processedEvaluations.map((evaluation: any, index: any) => (
         <div key={index}>
           <StaticMathField
             style={{ color: evaluation.correct === false ? "red" : "black" }}
           >
             {normalizeSlashes(evaluation.comment)}
           </StaticMathField>
-          {/* <StaticMathField
-            style={{ color: evaluation.correct === false ? "red" : "black" }}
-          >
-            {normalizeSlashes(evaluation.step)}
-          </StaticMathField> */}
         </div>
       ))}
     </div>
@@ -97,6 +130,11 @@ const CPanel: React.FC<Props> = ({
   isLoading,
   solutionResponses,
   uploadType,
+  setIsLoading,
+  questionImage,
+  setSolutionResponses,
+  setUploadType,
+  setEvaluation,
 }) => {
   const [solutionFinalAnswer, setSolutionFinalAnswer] = useState<string>("");
   const [topic, setTopic] = useState<string>("");
@@ -129,6 +167,42 @@ const CPanel: React.FC<Props> = ({
     }
   }, [solutionResponses]);
 
+  const handleEvaluateSolution = async () => {
+    const payload = {
+      question: questionImage,
+    };
+    try {
+      setIsLoading(true)
+      const response = await fetch(
+        "https://ken6a03.pythonanywhere.com/api/solution/solve",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Success:", data);
+        setSolutionResponses(data);
+        setUploadType("Question");
+        setEvaluation(null);
+      } else {
+        console.error("Error:", data);
+        alert(`Request failed: ${data.error || "Unknown error"}`);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred. Check the console for details.");
+    } finally {
+      setIsLoading(false); // Stop loading
+    }
+  };
+
   return (
     <div className="sm:col-span-2 border-[15px] border-[#152143] rounded-2xl bg-gray-50 overflow-auto custom-scrollbar min-h-[300px]">
       <div className="relative h-full w-full p-4">
@@ -136,7 +210,7 @@ const CPanel: React.FC<Props> = ({
         <h3 className="font-bold text-4xl ml-2 text-end">C</h3>
         {evaluation && (
           <div
-            className="mt-[0px]"
+            className="mt-[0px] "
             style={{
               pointerEvents: "none",
             }}
@@ -146,12 +220,19 @@ const CPanel: React.FC<Props> = ({
                 color: "blue",
                 fontWeight: "bold",
                 fontSize: "25px",
-                marginBottom: "20px" ,
+                marginBottom: "20px",
               }}
             >
               Answer is {evaluation?.final_answer ? "Correct" : "Wrong"}
             </h1>
-            <RenderEvaluation evaluations={evaluation || []} />
+            <StaticMathField>
+              {
+                "\text{This step incorrectly interprets the variables and expression. It should be:} \\newline \\left( \\frac{a^7 b^{-4}}{a^3 b^{-5}} \\right)^5 = \\left(a^{7-3} b^{-4-(-5)} \\right)^5 = \\left(a^4 b^1 \\right)^5 \\text{.}"
+              }
+            </StaticMathField>
+            <div className="flex flex-col justify-between h-full p-4">
+              <RenderEvaluation evaluations={evaluation || []} />
+            </div>
           </div>
         )}
         {uploadType === "Question" && solutionSteps.length > 0 && (
@@ -162,10 +243,9 @@ const CPanel: React.FC<Props> = ({
                 color: "blue",
                 fontWeight: "bold",
                 fontSize: "25px",
-                marginBottom: "20px" ,
+                marginBottom: "20px",
               }}
             >
-              {" "}
               {topic}
             </h4>
             <RenderSolutionSteps steps={solutionSteps} />
@@ -182,6 +262,16 @@ const CPanel: React.FC<Props> = ({
               </p>
             )}
           </div>
+        )}
+
+        {/* Solution Button */}
+        {evaluation && (
+          <button
+            className="absolute bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+            onClick={handleEvaluateSolution}
+          >
+            Solution
+          </button>
         )}
       </div>
     </div>
