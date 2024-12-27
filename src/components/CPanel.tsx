@@ -14,6 +14,8 @@ interface Props {
   setSolutionResponses: (response: any) => void;
   setUploadType: (type: string) => void;
   setEvaluation: (evaluation: any) => void;
+  evaluationCorrect : boolean;
+  similarQuestion: string;
 }
 
 interface EvaluationsProps {
@@ -135,6 +137,8 @@ const CPanel: React.FC<Props> = ({
   setSolutionResponses,
   setUploadType,
   setEvaluation,
+  evaluationCorrect,
+  similarQuestion,
 }) => {
   const [solutionFinalAnswer, setSolutionFinalAnswer] = useState<string>("");
   const [topic, setTopic] = useState<string>("");
@@ -169,10 +173,10 @@ const CPanel: React.FC<Props> = ({
 
   const handleEvaluateSolution = async () => {
     const payload = {
-      question: questionImage,
+      question: similarQuestion,
     };
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const response = await fetch(
         "https://ken6a03.pythonanywhere.com/api/solution/solve",
         {
@@ -223,13 +227,8 @@ const CPanel: React.FC<Props> = ({
                 marginBottom: "20px",
               }}
             >
-              Answer is {evaluation?.final_answer ? "Correct" : "Wrong"}
+              Answer is {evaluationCorrect ? "Correct" : "Wrong"}
             </h1>
-            <StaticMathField>
-              {
-                "\text{This step incorrectly interprets the variables and expression. It should be:} \\newline \\left( \\frac{a^7 b^{-4}}{a^3 b^{-5}} \\right)^5 = \\left(a^{7-3} b^{-4-(-5)} \\right)^5 = \\left(a^4 b^1 \\right)^5 \\text{.}"
-              }
-            </StaticMathField>
             <div className="flex flex-col justify-between h-full p-4">
               <RenderEvaluation evaluations={evaluation || []} />
             </div>

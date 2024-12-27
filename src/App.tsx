@@ -20,6 +20,7 @@ const App: React.FC = () => {
   const [questionImage, setQuestionImage] = useState<string>("");
   const [answerResponse, setAnswerResponse] = useState<any>("");
   const [evaluation, setEvaluation] = useState<string>("");
+  const [evaluationCorrect, setEvaluationCorrect] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [mainQuestionValid, setMainQuestionValid] = useState<number>(0);
   const [edit, setEdit] = useState<boolean>(false);
@@ -119,6 +120,7 @@ const App: React.FC = () => {
           setQuestionImage={setQuestionImage}
           setAnswerResponse={setAnswerResponse}
           setEvaluation={setEvaluation}
+          setEvaluationCorrect={setEvaluationCorrect}
           uploadType={uploadType}
           setUploadType={setUploadType}
           mainQuestionValid={mainQuestionValid}
@@ -141,6 +143,7 @@ const App: React.FC = () => {
               setIsLoading={setIsLoading}
               setSetSimilarQuestion={setSimilarQuestion}
               setEvaluation={setEvaluation}
+              setEvaluationCorrect={setEvaluationCorrect}
               setAnswerResponse={setAnswerResponse}
               answerResponse={answerResponse}
               uploadType={uploadType}
@@ -173,6 +176,8 @@ const App: React.FC = () => {
                 setSolutionResponses={setSolutionResponses}
                 setUploadType={setUploadType}
                 setEvaluation={setEvaluation}
+                evaluationCorrect={evaluationCorrect}
+                similarQuestion={similarQuestion}
               />
             </div>
           </div>

@@ -10,6 +10,7 @@ interface UploadProps {
   setQuestionImage: (response: any) => void;
   setAnswerResponse: (response: any) => void;
   setEvaluation: (evaluation: any) => void;
+  setEvaluationCorrect: (correct: boolean) => void;
   setUploadType: (type: string) => void;
   setSolutionResponses: (response: any) => void;
   setCapturedImageType: (type: string) => void;
@@ -26,6 +27,7 @@ const Upload: React.FC<UploadProps> = ({
   setQuestionImage,
   setAnswerResponse,
   setEvaluation,
+  setEvaluationCorrect,
   setUploadType,
   setSolutionResponses,
   setDisabledGenerateButton,
@@ -231,6 +233,7 @@ const Upload: React.FC<UploadProps> = ({
       const base64Image = image.split(",")[1]; // Remove "data:image/jpeg;base64,"
 
       if (uploadType === "Question") {
+        setEvaluation(null);
         const payload = {
           image_data: `data:image/png;base64,${base64Image}`,
         };
@@ -287,10 +290,12 @@ const Upload: React.FC<UploadProps> = ({
             if (response.ok) {
               const evaluationData = data?.evaluation?.steps || [];
               setEvaluation(evaluationData);
+              setEvaluationCorrect(data?.evaluation?.final_answer);
             } else {
               console.error("API Error:", data);
               alert(`Request failed: ${data.error || "Unknown error"}`);
               setEvaluation([]);
+              setEvaluationCorrect(false);
               return null;
             }
           } catch (error) {
