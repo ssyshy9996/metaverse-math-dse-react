@@ -126,6 +126,7 @@ const App: React.FC = () => {
           mainQuestionValid={mainQuestionValid}
           setDisabledGenerateButton={setDisabledGenerateButton}
           similarQuestion={similarQuestion}
+          setSimilarQuestion={setSimilarQuestion}
           saveQuestionWithSolution={saveQuestionWithSolution}
         />
         {/* Actions */}

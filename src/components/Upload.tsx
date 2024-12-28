@@ -20,6 +20,7 @@ interface UploadProps {
   mainQuestionValid: number;
   questionImage: string;
   similarQuestion: string;
+  setSimilarQuestion: (response: any) => void;
 }
 
 const Upload: React.FC<UploadProps> = ({
@@ -34,6 +35,7 @@ const Upload: React.FC<UploadProps> = ({
   setCapturedImageType,
   mainQuestionValid,
   similarQuestion,
+  setSimilarQuestion,
   uploadType,
   questionImage,
   saveQuestionWithSolution,
@@ -234,6 +236,11 @@ const Upload: React.FC<UploadProps> = ({
 
       if (uploadType === "Question") {
         setEvaluation(null);
+        setAnswerResponse("");
+        setSolutionResponses("");
+        setQuestionImage("");
+        setSimilarQuestion("");
+
         const payload = {
           image_data: `data:image/png;base64,${base64Image}`,
         };
