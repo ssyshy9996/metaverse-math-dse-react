@@ -17,7 +17,7 @@ const App: React.FC = () => {
   const [uploadType, setUploadType] = useState<string>("Question");
   const [solutionResponses, setSolutionResponses] = useState<string>("");
   const [similarQuestion, setSimilarQuestion] = useState<string>("");
-  const [questionImage, setQuestionImage] = useState<string>("");
+  const [questionLatex, setQuestionLatex] = useState<string>("");
   const [answerResponse, setAnswerResponse] = useState<any>("");
   const [evaluation, setEvaluation] = useState<string>("");
   const [evaluationCorrect, setEvaluationCorrect] = useState<boolean>(false);
@@ -26,6 +26,7 @@ const App: React.FC = () => {
   const [edit, setEdit] = useState<boolean>(false);
   const [zoom, setZoom] = useState(calculateZoom());
   const [capturedImageType, setCapturedImageType] = useState<string>("");
+  const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [disabledGenerateButton, setDisabledGenerateButton] =
     useState<boolean>(false);
 
@@ -38,7 +39,7 @@ const App: React.FC = () => {
   }, [solutionResponses]);
   const saveQuestionWithSolution = async () => {
     const payload = {
-      question: questionImage,
+      question: questionLatex,
       solution: solutionResponses,
     };
     console.log(payload);
@@ -114,10 +115,10 @@ const App: React.FC = () => {
         {/* Upload */}
         <Upload
           setCapturedImageType={setCapturedImageType}
-          questionImage={questionImage}
+          questionImage={questionLatex}
           setIsLoading={setIsLoading}
           setSolutionResponses={setSolutionResponses}
-          setQuestionImage={setQuestionImage}
+          setQuestionImage={setQuestionLatex}
           setAnswerResponse={setAnswerResponse}
           setEvaluation={setEvaluation}
           setEvaluationCorrect={setEvaluationCorrect}
@@ -127,6 +128,8 @@ const App: React.FC = () => {
           setDisabledGenerateButton={setDisabledGenerateButton}
           similarQuestion={similarQuestion}
           setSimilarQuestion={setSimilarQuestion}
+          capturedImage={capturedImage}
+          setCapturedImage={setCapturedImage}
           saveQuestionWithSolution={saveQuestionWithSolution}
         />
         {/* Actions */}
@@ -140,7 +143,7 @@ const App: React.FC = () => {
               setUploadType={setUploadType}
               solutionResponses={solutionResponses}
               setSolutionResponses={setSolutionResponses}
-              questionImage={questionImage}
+              questionImage={questionLatex}
               setIsLoading={setIsLoading}
               setSetSimilarQuestion={setSimilarQuestion}
               setEvaluation={setEvaluation}
@@ -152,6 +155,7 @@ const App: React.FC = () => {
               setEdit={setEdit}
               removeQuestionWithSolution={removeQuestionWithSolution}
               similarQuestion={similarQuestion}
+              setCapturedImage={setCapturedImage}
             />
             <div className="absolute bottom-[calc(5%+1rem)] grid grid-cols-1 sm:grid-cols-3 gap-1 h-[calc(90%-2rem)] w-[90%] left-[5%]">
               <BPanel
@@ -160,10 +164,10 @@ const App: React.FC = () => {
                 edit={edit}
                 answerResponse={answerResponse}
                 similarQuestion={similarQuestion}
-                questionImage={questionImage}
+                questionImage={questionLatex}
                 isLoading={isLoading}
                 setAnswerResponse={setAnswerResponse}
-                setQuestionImage={setQuestionImage}
+                setQuestionImage={setQuestionLatex}
                 setIsLoading={setIsLoading}
                 setMainQuestionValid={setMainQuestionValid}
               />
@@ -173,7 +177,7 @@ const App: React.FC = () => {
                 solutionResponses={solutionResponses}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
-                questionImage={questionImage}
+                questionImage={questionLatex}
                 setSolutionResponses={setSolutionResponses}
                 setUploadType={setUploadType}
                 setEvaluation={setEvaluation}

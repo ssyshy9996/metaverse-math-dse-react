@@ -21,6 +21,8 @@ interface UploadProps {
   questionImage: string;
   similarQuestion: string;
   setSimilarQuestion: (response: any) => void;
+  capturedImage: string | null;
+  setCapturedImage: (image: string | null) => void;
 }
 
 const Upload: React.FC<UploadProps> = ({
@@ -39,8 +41,9 @@ const Upload: React.FC<UploadProps> = ({
   uploadType,
   questionImage,
   saveQuestionWithSolution,
+  capturedImage,
+  setCapturedImage
 }) => {
-  const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [photoMode, setPhotoMode] = useState(false);
   const [cameraAccessible, setCameraAccessible] = useState(false);

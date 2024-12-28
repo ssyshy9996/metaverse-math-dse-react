@@ -19,6 +19,7 @@ interface Props {
   disabledGenerateButton: boolean;
   removeQuestionWithSolution: () => void;
   similarQuestion: string;
+  setCapturedImage: (image: string | null) => void;
 }
 
 const Action: React.FC<Props> = ({
@@ -39,6 +40,7 @@ const Action: React.FC<Props> = ({
   questionImage,
   removeQuestionWithSolution,
   similarQuestion,
+  setCapturedImage,
 }) => {
   const handleGetSolution = async () => {
     setIsLoading(true);
@@ -94,6 +96,7 @@ const Action: React.FC<Props> = ({
       const data = await response.json();
       if (response.ok) {
         setSetSimilarQuestion(data);
+        setCapturedImage(null);
         setUploadType("Answer");
         setCapturedImageType("");
         setEvaluation("");
