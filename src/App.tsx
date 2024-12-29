@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Upload from "./components/Upload";
 import Action from "./components/Action";
-import BPanel from "./components/BPanel";
+import BPanel, { isValidLaTeX } from "./components/BPanel";
 import CPanel from "./components/CPanel";
 import { ToastContainer } from "react-toastify";
 
@@ -29,10 +29,15 @@ const App: React.FC = () => {
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [disabledGenerateButton, setDisabledGenerateButton] =
     useState<boolean>(false);
+  const [base64Image, setBase64Image] = useState<string | null>(null);
 
   var question_bank_id: string = "";
 
   useEffect(() => {
+    console.log(
+      "isValidLatex",
+      isValidLaTeX("\\text{Evaluate:} \\int \\frac{2+x}{(1+x)^2} \\, dx")
+    );
     if (solutionResponses) {
       saveQuestionWithSolution();
     }
@@ -67,6 +72,42 @@ const App: React.FC = () => {
     }
   };
 
+  const CPanelRefresh = async () => {
+    if (uploadType === "Question") {
+      setIsLoading(true);
+      const payload = {
+        question: questionLatex,
+      };
+      try {
+        const response = await fetch(
+          "https://ken6a03.pythonanywhere.com/api/solution/solve",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          }
+        );
+
+        const data = await response.json();
+
+        if (response.ok) {
+          console.log("Success:", data);
+          setSolutionResponses(data);
+          setDisabledGenerateButton(true);
+        } else {
+          console.error("Error:", data);
+          alert(`Request failed: ${data.error || "Unknown error"}`);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred. Check the console for details.");
+      } finally {
+        setIsLoading(false); // Stop loading
+      }
+    }
+  };
   const removeQuestionWithSolution = async () => {
     if (!question_bank_id) {
       console.log("No question bank ID available to remove.");
@@ -131,6 +172,7 @@ const App: React.FC = () => {
           capturedImage={capturedImage}
           setCapturedImage={setCapturedImage}
           saveQuestionWithSolution={saveQuestionWithSolution}
+          setBase64Image={setBase64Image}
         />
         {/* Actions */}
         <div className="w-full sm:w-[67%] flex flex-col justify-between h-full min-h-screen">
@@ -170,6 +212,7 @@ const App: React.FC = () => {
                 setQuestionImage={setQuestionLatex}
                 setIsLoading={setIsLoading}
                 setMainQuestionValid={setMainQuestionValid}
+                base64Image={base64Image}
               />
               <CPanel
                 uploadType={uploadType}
@@ -183,6 +226,7 @@ const App: React.FC = () => {
                 setEvaluation={setEvaluation}
                 evaluationCorrect={evaluationCorrect}
                 similarQuestion={similarQuestion}
+                refreshHandler={CPanelRefresh}
               />
             </div>
           </div>

@@ -4,6 +4,7 @@ import "katex/dist/katex.min.css";
 import ProgressBar from "./ProgressBar";
 import katex from "katex";
 import { toast } from "react-toastify";
+import RefreshOnHover from "./RefreshOnHover";
 interface Props {
   evaluation: any;
   isLoading: boolean;
@@ -14,8 +15,9 @@ interface Props {
   setSolutionResponses: (response: any) => void;
   setUploadType: (type: string) => void;
   setEvaluation: (evaluation: any) => void;
-  evaluationCorrect : boolean;
+  evaluationCorrect: boolean;
   similarQuestion: string;
+  refreshHandler: () => void;
 }
 
 interface EvaluationsProps {
@@ -139,6 +141,7 @@ const CPanel: React.FC<Props> = ({
   setEvaluation,
   evaluationCorrect,
   similarQuestion,
+  refreshHandler,
 }) => {
   const [solutionFinalAnswer, setSolutionFinalAnswer] = useState<string>("");
   const [topic, setTopic] = useState<string>("");
@@ -211,8 +214,12 @@ const CPanel: React.FC<Props> = ({
     <div className="sm:col-span-2 border-[15px] border-[#152143] rounded-2xl bg-gray-50 overflow-auto custom-scrollbar min-h-[300px]">
       <div className="relative h-full w-full p-4">
         {isLoading && <ProgressBar isLoading={isLoading} />}
-        <StaticMathField>{ "Step\\ 1:\\ Apply\\ \\exponent\\ rules\\ -\\ multiply\\ the\\ numerator\\ power\\ \\exp onents\\ in\\ fraction"}</StaticMathField>
-        <h3 className="font-bold text-4xl ml-2 text-end">C</h3>
+        {/* <h3 className="font-bold text-4xl ml-2 text-end">C</h3> */}
+        <RefreshOnHover
+          className="font-bold text-4xl ml-2 text-end"
+          text="C"
+          refreshHandler={refreshHandler}
+        />
         {evaluation && (
           <div
             className="mt-[0px] "
@@ -277,5 +284,6 @@ const CPanel: React.FC<Props> = ({
     </div>
   );
 };
+
 
 export default CPanel;

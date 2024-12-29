@@ -4,6 +4,7 @@ import Webcam from "react-webcam";
 import { MdOutlineChangeCircle } from "react-icons/md";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { isValidLaTeX } from "./BPanel";
 
 interface UploadProps {
   setIsLoading: (loading: boolean) => void;
@@ -23,11 +24,12 @@ interface UploadProps {
   setSimilarQuestion: (response: any) => void;
   capturedImage: string | null;
   setCapturedImage: (image: string | null) => void;
+  setBase64Image: (image: string | null) => void;
 }
 
 const Upload: React.FC<UploadProps> = ({
   setIsLoading,
-  setQuestionImage,
+  setQuestionImage: setQuestionLatex,
   setAnswerResponse,
   setEvaluation,
   setEvaluationCorrect,
@@ -42,7 +44,8 @@ const Upload: React.FC<UploadProps> = ({
   questionImage,
   saveQuestionWithSolution,
   capturedImage,
-  setCapturedImage
+  setCapturedImage,
+  setBase64Image
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [photoMode, setPhotoMode] = useState(false);
@@ -236,38 +239,40 @@ const Upload: React.FC<UploadProps> = ({
 
     try {
       const base64Image = image.split(",")[1]; // Remove "data:image/jpeg;base64,"
-
+      setBase64Image(base64Image);
       if (uploadType === "Question") {
         setEvaluation(null);
         setAnswerResponse("");
         setSolutionResponses("");
-        setQuestionImage("");
+        setQuestionLatex("");
         setSimilarQuestion("");
 
         const payload = {
           image_data: `data:image/png;base64,${base64Image}`,
         };
+        var tmpQuestionImage = "";
+        do {
+          const response = await fetch(
+            "https://ken6a03.pythonanywhere.com/api/ocr/extract",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(payload),
+            }
+          );
 
-        const response = await fetch(
-          "https://ken6a03.pythonanywhere.com/api/ocr/extract",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
+          const data = await response.json();
+          if (response.ok) {
+            console.log("tmpQuestionImage" + data?.text);
+            tmpQuestionImage = data?.text;
+            setQuestionLatex(tmpQuestionImage);
+          } else {
+            console.error("Error:", data);
+            alert(`Request failed: ${data.error || "Unknown error"}`);
           }
-        );
-
-        const data = await response.json();
-        if (response.ok) {
-          console.log("tmpQuestionImage" + data?.text);
-          const tmpQuestionImage = data?.text;
-          setQuestionImage(tmpQuestionImage);
-        } else {
-          console.error("Error:", data);
-          alert(`Request failed: ${data.error || "Unknown error"}`);
-        }
+        } while (!isValidLaTeX(tmpQuestionImage));
       } else if (uploadType === "Answer") {
         const response = await axios.post(
           "https://ken6a03.pythonanywhere.com/api/ocr/extract_answer",

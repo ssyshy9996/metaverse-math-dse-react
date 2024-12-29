@@ -5,6 +5,7 @@ import katex from "katex";
 import "katex/dist/katex.min.css";
 import { toast } from "react-toastify";
 import "./BPanel.css";
+import RefreshOnHover from "./RefreshOnHover";
 
 interface Props {
   questionImage: any;
@@ -18,6 +19,7 @@ interface Props {
   setQuestionImage: (response: string) => void;
   setAnswerResponse: (response: any) => void;
   setMainQuestionValid: (response: any) => void;
+  base64Image: any;
 }
 
 addStyles();
@@ -61,6 +63,7 @@ function isValidLaTeX(latex: string): boolean {
     return false;
   }
 }
+export { isValidLaTeX };
 
 const RenderSteps: React.FC<{
   steps: string[];
@@ -100,6 +103,8 @@ const BPanel: React.FC<Props> = ({
   setAnswerResponse,
   setMainQuestionValid,
   isLoading,
+  base64Image,
+  setIsLoading
 }) => {
   const [mainQuestion, setMainQuestion] = useState<string>("");
   const [generatedQuestion, setGeneratedQuestion] = useState<string>("");
@@ -164,13 +169,52 @@ const BPanel: React.FC<Props> = ({
     // console.log(edit);
   }, [questionImage, similarQuestion, answerResponse, edit]);
 
+  const BPanelRefresh = async () => {
+    setIsLoading(true);
+    if (uploadType === "Question") {
+      const payload = {
+        image_data: `data:image/png;base64,${base64Image}`,
+      };
+      var tmpQuestionImage = "";
+      do {
+        const response = await fetch(
+          "https://ken6a03.pythonanywhere.com/api/ocr/extract",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          }
+        );
+
+        const data = await response.json();
+        if (response.ok) {
+          console.log("tmpQuestionImage" + data?.text);
+          tmpQuestionImage = data?.text;
+          setQuestionImage(tmpQuestionImage);
+        } else {
+          console.error("Error:", data);
+          alert(`Request failed: ${data.error || "Unknown error"}`);
+        }
+        setIsLoading(false);
+        console.log("valid question", isValidLaTeX(tmpQuestionImage));
+      } while (!isValidLaTeX(tmpQuestionImage));
+
+    }
+  };
   return (
     <div className="sm:col-span-1 border-[15px] border-[#152143] rounded-2xl bg-gray-50 overflow-auto custom-scrollbar min-h-[300px]">
       {/* <StaticMathField>{"\\text{1. Simplify \\( \\left(\\frac{m^5 n^{-2}}{m^4 n^{-3}}\\right)^6 \\) and express your answer with positive indices}" }</StaticMathField>
       <StaticMathField>{"\\text{1. Simplify } \\left( \\frac{m^5 n^{-2}}{m^4 n^{-3}} \\right)^6 \\text{ and express your answer with positive indices}" }</StaticMathField> */}
       <div className="relative h-full w-full p-4">
         {isLoading && <ProgressBar isLoading={isLoading} />}
-        <h3 className="text-start font-bold text-4xl mr-2">B</h3>
+        {/* <h3 className="text-start font-bold text-4xl mr-2">B</h3> */}
+        <RefreshOnHover
+          text="B"
+          className="text-start font-bold text-4xl mr-2"
+          refreshHandler={BPanelRefresh}
+        />
         {uploadType === "Question" &&
           !generatedQuestion &&
           mainQuestion &&
