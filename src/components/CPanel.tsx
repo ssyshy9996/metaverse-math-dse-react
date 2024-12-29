@@ -211,6 +211,7 @@ const CPanel: React.FC<Props> = ({
     <div className="sm:col-span-2 border-[15px] border-[#152143] rounded-2xl bg-gray-50 overflow-auto custom-scrollbar min-h-[300px]">
       <div className="relative h-full w-full p-4">
         {isLoading && <ProgressBar isLoading={isLoading} />}
+        <StaticMathField>{ "Step\\ 1:\\ Apply\\ \\exponent\\ rules\\ -\\ multiply\\ the\\ numerator\\ power\\ \\exp onents\\ in\\ fraction"}</StaticMathField>
         <h3 className="font-bold text-4xl ml-2 text-end">C</h3>
         {evaluation && (
           <div

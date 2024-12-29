@@ -400,7 +400,7 @@ const Upload: React.FC<UploadProps> = ({
               </div>
             )}
             {photoMode && (
-              <div className="relative">
+              <div className="absolute top-[60px] w-full">
                 <Webcam
                   audio={false}
                   ref={webcamRef}
