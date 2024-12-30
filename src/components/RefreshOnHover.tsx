@@ -7,7 +7,7 @@ const RefreshOnHover: React.FC<{
   likeHandler?: () => void;
   dislikeHandler?: () => void;
 }> = ({ text, className, refreshHandler, likeHandler, dislikeHandler }) => {
-  const [showRefresh, setShowRefresh] = useState(false);
+  const [showRefresh, setShowRefresh] = useState(true);
   const [showLike, setShowLike] = useState(false);
   const [showDislike, setShowDislike] = useState(false);
 
@@ -19,15 +19,18 @@ const RefreshOnHover: React.FC<{
         setShowLike(true);
         setShowDislike(true);
       }}
-      onMouseLeave={() => {
-        setShowRefresh(false);
-        setShowLike(false);
-        setShowDislike(false);
-      }}
+      //   onMouseLeave={() => {
+      //     setShowRefresh(false);
+      //     setShowLike(false);
+      //     setShowDislike(false);
+      //   }}
     >
       {text}
       {showRefresh && (
-        <button className="ml-2" onClick={() => refreshHandler?.()}>
+        <button
+          className="ml-2"
+          onClick={() => refreshHandler?.()}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -85,4 +88,3 @@ const RefreshOnHover: React.FC<{
 };
 
 export default RefreshOnHover;
-

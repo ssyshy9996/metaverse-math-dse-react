@@ -7,6 +7,9 @@ import { toast } from "react-toastify";
 import "./BPanel.css";
 import RefreshOnHover from "./RefreshOnHover";
 
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
+
 interface Props {
   questionImage: any;
   isLoading: boolean;
@@ -104,7 +107,7 @@ const BPanel: React.FC<Props> = ({
   setMainQuestionValid,
   isLoading,
   base64Image,
-  setIsLoading
+  setIsLoading,
 }) => {
   const [mainQuestion, setMainQuestion] = useState<string>("");
   const [generatedQuestion, setGeneratedQuestion] = useState<string>("");
@@ -200,7 +203,6 @@ const BPanel: React.FC<Props> = ({
         setIsLoading(false);
         console.log("valid question", isValidLaTeX(tmpQuestionImage));
       } while (!isValidLaTeX(tmpQuestionImage));
-
     }
   };
   return (
@@ -210,11 +212,17 @@ const BPanel: React.FC<Props> = ({
       <div className="relative h-full w-full p-4">
         {isLoading && <ProgressBar isLoading={isLoading} />}
         {/* <h3 className="text-start font-bold text-4xl mr-2">B</h3> */}
-        <RefreshOnHover
-          text="B"
-          className="text-start font-bold text-4xl mr-2"
-          refreshHandler={BPanelRefresh}
-        />
+        <div
+          data-tooltip-content={"Refresh when page is blank or missing content"}
+          data-tooltip-id="tooltip"
+          // data-tooltip-place="bottom-end"
+        >
+          <RefreshOnHover
+            text="B"
+            className="text-start font-bold text-4xl mr-2"
+            refreshHandler={BPanelRefresh}
+          />
+        </div>
         {uploadType === "Question" &&
           !generatedQuestion &&
           mainQuestion &&

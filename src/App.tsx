@@ -4,6 +4,8 @@ import Action from "./components/Action";
 import BPanel, { isValidLaTeX } from "./components/BPanel";
 import CPanel from "./components/CPanel";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Tooltip } from "react-tooltip";
 
 const calculateZoom = () => {
   const baseWidth = 1800;
@@ -245,6 +247,7 @@ const App: React.FC = () => {
         closeButton={false}
         theme={"dark"}
       />
+      <Tooltip id="tooltip" />
     </div>
   );
 };

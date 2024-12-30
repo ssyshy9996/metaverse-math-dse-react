@@ -5,6 +5,10 @@ import ProgressBar from "./ProgressBar";
 import katex from "katex";
 import { toast } from "react-toastify";
 import RefreshOnHover from "./RefreshOnHover";
+
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
+
 interface Props {
   evaluation: any;
   isLoading: boolean;
@@ -215,11 +219,14 @@ const CPanel: React.FC<Props> = ({
       <div className="relative h-full w-full p-4">
         {isLoading && <ProgressBar isLoading={isLoading} />}
         {/* <h3 className="font-bold text-4xl ml-2 text-end">C</h3> */}
-        <RefreshOnHover
-          className="font-bold text-4xl ml-2 text-end"
-          text="C"
-          refreshHandler={refreshHandler}
-        />
+        {/* <Tooltip id="tooltip" place="bottom" /> */}
+        <h1 data-tooltip-content={"Refresh when page is blank or missing content"} data-tooltip-id="tooltip">
+          <RefreshOnHover
+            className="font-bold text-4xl ml-2 text-end"
+            text="C"
+            refreshHandler={refreshHandler}
+          />
+        </h1>
         {evaluation && (
           <div
             className="mt-[0px] "
@@ -284,6 +291,5 @@ const CPanel: React.FC<Props> = ({
     </div>
   );
 };
-
 
 export default CPanel;
