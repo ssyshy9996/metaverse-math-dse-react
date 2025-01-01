@@ -33,6 +33,7 @@ const App: React.FC = () => {
     useState<boolean>(false);
   const [base64Image, setBase64Image] = useState<string | null>(null);
 
+
   var question_bank_id: string = "";
 
   useEffect(() => {
@@ -49,7 +50,7 @@ const App: React.FC = () => {
       question: questionLatex,
       solution: solutionResponses,
     };
-    console.log(payload);
+    // console.log(payload);
     try {
       const response = await fetch(
         "https://ken6a03.pythonanywhere.com/api/db/question_bank/add",
@@ -65,7 +66,7 @@ const App: React.FC = () => {
       const data = await response.json();
       if (response.ok) {
         question_bank_id = data.id;
-        console.log("Question saved:", data);
+        // console.log("Question saved:", data);
       } else {
         console.error("Failed to save question:", data.error);
       }
@@ -95,7 +96,7 @@ const App: React.FC = () => {
         const data = await response.json();
 
         if (response.ok) {
-          console.log("Success:", data);
+          // console.log("Success:", data);
           setSolutionResponses(data);
           setDisabledGenerateButton(true);
         } else {

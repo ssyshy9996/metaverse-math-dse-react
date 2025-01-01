@@ -20,7 +20,7 @@ interface Props {
   setUploadType: (type: string) => void;
   setEvaluation: (evaluation: any) => void;
   evaluationCorrect: boolean;
-  similarQuestion: string;
+  similarQuestion: any;
   refreshHandler: () => void;
 }
 
@@ -71,7 +71,7 @@ const RenderEvaluation: React.FC<{ evaluations: EvaluationsProps[] }> = ({
       }
     });
 
-    console.log("newEvaluations:", newSteps);
+    // console.log("newEvaluations:", newSteps);
     return newSteps;
   };
 
@@ -165,9 +165,9 @@ const CPanel: React.FC<Props> = ({
     );
 
     setSolutionFinalAnswer(normalizedSolutionFinalAnswer);
-    console.log("before:", tmpsteps);
+    // console.log("before:", tmpsteps);
     tmpsteps = breaklineSteps(tmpsteps);
-    console.log("after:", tmpsteps);
+    // console.log("after:", tmpsteps);
     setSolutionSteps(tmpsteps);
     setTopic(tmptopic);
     if (!solutionFinalAnswerValid) {
@@ -179,33 +179,39 @@ const CPanel: React.FC<Props> = ({
   }, [solutionResponses]);
 
   const handleEvaluateSolution = async () => {
-    const payload = {
-      question: similarQuestion,
-    };
+    // const payload = {
+    //   question: similarQuestion,
+    // };
     try {
-      setIsLoading(true);
-      const response = await fetch(
-        "https://ken6a03.pythonanywhere.com/api/solution/solve",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const solution = {
+        solution: similarQuestion?.solution,
+      };
+      setSolutionResponses(solution);
+      setUploadType("Question");
+      setEvaluation(null);
+      //   setIsLoading(true);
+      //   const response = await fetch(
+      //     "https://ken6a03.pythonanywhere.com/api/solution/solve",
+      //     {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //       body: JSON.stringify(payload),
+      //     }
+      //   );
 
-      const data = await response.json();
+      //   const data = await response.json();
 
-      if (response.ok) {
-        console.log("Success:", data);
-        setSolutionResponses(data);
-        setUploadType("Question");
-        setEvaluation(null);
-      } else {
-        console.error("Error:", data);
-        alert(`Request failed: ${data.error || "Unknown error"}`);
-      }
+      //   if (response.ok) {
+      //     // console.log("Success:", data);
+      //     setSolutionResponses(data);
+      //     setUploadType("Question");
+      //     setEvaluation(null);
+      //   } else {
+      //     console.error("Error:", data);
+      //     alert(`Request failed: ${data.error || "Unknown error"}`);
+      // }
     } catch (error) {
       console.error("Error:", error);
       alert("An error occurred. Check the console for details.");
@@ -220,7 +226,10 @@ const CPanel: React.FC<Props> = ({
         {isLoading && <ProgressBar isLoading={isLoading} />}
         {/* <h3 className="font-bold text-4xl ml-2 text-end">C</h3> */}
         {/* <Tooltip id="tooltip" place="bottom" /> */}
-        <h1 data-tooltip-content={"Refresh when page is blank or missing content"} data-tooltip-id="tooltip">
+        <h1
+          data-tooltip-content={"Refresh when page is blank or missing content"}
+          data-tooltip-id="tooltip"
+        >
           <RefreshOnHover
             className="font-bold text-4xl ml-2 text-end"
             text="C"

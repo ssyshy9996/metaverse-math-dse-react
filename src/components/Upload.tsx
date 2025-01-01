@@ -45,7 +45,7 @@ const Upload: React.FC<UploadProps> = ({
   saveQuestionWithSolution,
   capturedImage,
   setCapturedImage,
-  setBase64Image
+  setBase64Image,
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [photoMode, setPhotoMode] = useState(false);
@@ -209,7 +209,7 @@ const Upload: React.FC<UploadProps> = ({
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Success:", data);
+        // console.log("Success:", data);
         setSolutionResponses(data);
         setDisabledGenerateButton(true);
       } else {
@@ -410,7 +410,10 @@ const Upload: React.FC<UploadProps> = ({
                   audio={false}
                   ref={webcamRef}
                   screenshotFormat="image/jpeg"
-                  videoConstraints={{ facingMode: "environment" }}
+                  videoConstraints={{
+                    facingMode: "environment",
+                    aspectRatio: 9 / 16,
+                  }}
                   className="rounded shadow"
                 />
                 <button

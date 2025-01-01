@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface Props {
   setSolutionResponses: (response: any) => void;
@@ -42,6 +42,7 @@ const Action: React.FC<Props> = ({
   similarQuestion,
   setCapturedImage,
 }) => {
+  const [lastTopic, setLastTopic] = useState<string>("");
   const handleGetSolution = async () => {
     setIsLoading(true);
     const payload = {
@@ -74,7 +75,14 @@ const Action: React.FC<Props> = ({
       setIsLoading(false); // Stop loading
     }
   };
-
+  useEffect(() => {
+    if (
+      solutionResponses?.solution?.topic &&
+      solutionResponses.solution.topic !== ""
+    ) {
+      setLastTopic(solutionResponses.solution.topic);
+    }
+  }, [solutionResponses]);
   const handleGenerateQuestion = async () => {
     setIsLoading(true);
     const payload = {
@@ -83,19 +91,24 @@ const Action: React.FC<Props> = ({
     setIsLoading(true);
     try {
       const response = await fetch(
-        "https://ken6a03.pythonanywhere.com/api/practice/generate",
+        // "https://ken6a03.pythonanywhere.com/api/practice/generate",
+        `https://ken6a03.pythonanywhere.com/api/practice/${lastTopic || ""}`,
         {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(payload),
         }
       );
 
       const data = await response.json();
       if (response.ok) {
-        setSetSimilarQuestion(data);
+        const randomNumber = Math.floor(Math.random() * data.questions.length);
+        const simQst = {
+          questions: data.questions[randomNumber].question,
+          solution:data.questions[randomNumber].solution
+        }
+        setSetSimilarQuestion(simQst);
         setCapturedImage(null);
         setUploadType("Answer");
         setCapturedImageType("");

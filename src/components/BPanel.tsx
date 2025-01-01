@@ -193,7 +193,7 @@ const BPanel: React.FC<Props> = ({
 
         const data = await response.json();
         if (response.ok) {
-          console.log("tmpQuestionImage" + data?.text);
+          // console.log("tmpQuestionImage" + data?.text);
           tmpQuestionImage = data?.text;
           setQuestionImage(tmpQuestionImage);
         } else {
@@ -201,7 +201,7 @@ const BPanel: React.FC<Props> = ({
           alert(`Request failed: ${data.error || "Unknown error"}`);
         }
         setIsLoading(false);
-        console.log("valid question", isValidLaTeX(tmpQuestionImage));
+        // console.log("valid question", isValidLaTeX(tmpQuestionImage));
       } while (!isValidLaTeX(tmpQuestionImage));
     }
   };
@@ -212,17 +212,25 @@ const BPanel: React.FC<Props> = ({
       <div className="relative h-full w-full p-4">
         {isLoading && <ProgressBar isLoading={isLoading} />}
         {/* <h3 className="text-start font-bold text-4xl mr-2">B</h3> */}
-        <div
-          data-tooltip-content={"Refresh when page is blank or missing content"}
-          data-tooltip-id="tooltip"
-          // data-tooltip-place="bottom-end"
-        >
-          <RefreshOnHover
-            text="B"
-            className="text-start font-bold text-4xl mr-2"
-            refreshHandler={BPanelRefresh}
-          />
-        </div>
+
+        {(answerSteps.length > 0 || mainQuestion) && similarQuestion==="" ? (
+          <div
+            data-tooltip-content={
+              "Refresh when page is blank or missing content"
+            }
+            data-tooltip-id="tooltip"
+            // data-tooltip-place="bottom-end"
+          >
+            <RefreshOnHover
+              text="B"
+              className="text-start font-bold text-4xl mr-2"
+              refreshHandler={BPanelRefresh}
+            />
+          </div>
+        ) : (
+          <p className="text-start font-bold text-4xl mr-2">B</p>
+        )}
+
         {uploadType === "Question" &&
           !generatedQuestion &&
           mainQuestion &&
