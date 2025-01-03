@@ -207,8 +207,6 @@ const BPanel: React.FC<Props> = ({
   };
   return (
     <div className="sm:col-span-1 border-[15px] border-[#152143] rounded-2xl bg-gray-50 overflow-auto custom-scrollbar min-h-[300px]">
-      {/* <StaticMathField>{"\\text{1. Simplify \\( \\left(\\frac{m^5 n^{-2}}{m^4 n^{-3}}\\right)^6 \\) and express your answer with positive indices}" }</StaticMathField>
-      <StaticMathField>{"\\text{1. Simplify } \\left( \\frac{m^5 n^{-2}}{m^4 n^{-3}} \\right)^6 \\text{ and express your answer with positive indices}" }</StaticMathField> */}
       <div className="relative h-full w-full p-4">
         {isLoading && <ProgressBar isLoading={isLoading} />}
         {/* <h3 className="text-start font-bold text-4xl mr-2">B</h3> */}
@@ -270,7 +268,7 @@ const BPanel: React.FC<Props> = ({
             )}
           </div>
         )}
-        {!isLoading && answerSteps.length > 0 && (
+        {answerSteps.length > 0 && (
           <div className="">
             <RenderSteps
               steps={answerSteps}

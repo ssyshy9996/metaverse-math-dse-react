@@ -83,11 +83,15 @@ const RenderEvaluation: React.FC<{ evaluations: EvaluationsProps[] }> = ({
     <div style={{ display: "flex", flexDirection: "column" }}>
       {processedEvaluations.map((evaluation: any, index: any) => (
         <div key={index}>
-          <StaticMathField
-            style={{ color: evaluation.correct === false ? "red" : "black" }}
-          >
-            {normalizeSlashes(evaluation.comment)}
-          </StaticMathField>
+          {evaluation.comment ? (
+            <StaticMathField
+              style={{ color: evaluation.correct === false ? "red" : "black" }}
+            >
+              {normalizeSlashes(evaluation.comment)}
+            </StaticMathField>
+          ) : (
+            <div></div>
+          )}
         </div>
       ))}
     </div>
@@ -179,6 +183,7 @@ const CPanel: React.FC<Props> = ({
   }, [solutionResponses]);
 
   const handleEvaluateSolution = async () => {
+
     // const payload = {
     //   question: similarQuestion,
     // };
@@ -186,6 +191,7 @@ const CPanel: React.FC<Props> = ({
       const solution = {
         solution: similarQuestion?.solution,
       };
+      console.log("Solution:", solution);
       setSolutionResponses(solution);
       setUploadType("Question");
       setEvaluation(null);
@@ -224,17 +230,19 @@ const CPanel: React.FC<Props> = ({
     <div className="sm:col-span-2 border-[15px] border-[#152143] rounded-2xl bg-gray-50 overflow-auto custom-scrollbar min-h-[300px]">
       <div className="relative h-full w-full p-4">
         {isLoading && <ProgressBar isLoading={isLoading} />}
-        {/* <h3 className="font-bold text-4xl ml-2 text-end">C</h3> */}
-        {/* <Tooltip id="tooltip" place="bottom" /> */}
         <h1
           data-tooltip-content={"Refresh when page is blank or missing content"}
           data-tooltip-id="tooltip"
         >
-          <RefreshOnHover
-            className="font-bold text-4xl ml-2 text-end"
-            text="C"
-            refreshHandler={refreshHandler}
-          />
+          {evaluation ? (
+            <RefreshOnHover
+              className="font-bold text-4xl ml-2 text-end"
+              text="C"
+              refreshHandler={refreshHandler}
+            />
+          ) : (
+            <p className="font-bold text-4xl ml-2 text-end">C</p>
+          )}
         </h1>
         {evaluation && (
           <div
@@ -293,7 +301,7 @@ const CPanel: React.FC<Props> = ({
             className="absolute bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
             onClick={handleEvaluateSolution}
           >
-            Solution
+            Sample Answer
           </button>
         )}
       </div>

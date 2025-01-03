@@ -9,6 +9,7 @@ import { isValidLaTeX } from "./BPanel";
 interface UploadProps {
   setIsLoading: (loading: boolean) => void;
   setQuestionImage: (response: any) => void;
+  answerResponse: any;
   setAnswerResponse: (response: any) => void;
   setEvaluation: (evaluation: any) => void;
   setEvaluationCorrect: (correct: boolean) => void;
@@ -20,7 +21,7 @@ interface UploadProps {
   uploadType: string;
   mainQuestionValid: number;
   questionImage: string;
-  similarQuestion: string;
+  similarQuestion: any;
   setSimilarQuestion: (response: any) => void;
   capturedImage: string | null;
   setCapturedImage: (image: string | null) => void;
@@ -30,6 +31,7 @@ interface UploadProps {
 const Upload: React.FC<UploadProps> = ({
   setIsLoading,
   setQuestionImage: setQuestionLatex,
+  answerResponse,
   setAnswerResponse,
   setEvaluation,
   setEvaluationCorrect,
@@ -54,6 +56,17 @@ const Upload: React.FC<UploadProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const changeUploadType = () => {
+    // if (uploadType === "Answer" && answerResponse) {
+    //   const confirm = window.confirm(
+    //     "Are you sure you want to start a new question?"
+    //   );
+    //   if (!confirm) {
+    //     return;
+    //   }
+    //   if (confirm) {
+    //     window.location.reload();
+    //   }
+    // }
     setUploadType(uploadType === "Question" ? "Answer" : "Question");
   };
 
@@ -251,6 +264,8 @@ const Upload: React.FC<UploadProps> = ({
           image_data: `data:image/png;base64,${base64Image}`,
         };
         var tmpQuestionImage = "";
+        const MAX_RETRY = 2;
+        var retryCount = 0;
         do {
           const response = await fetch(
             "https://ken6a03.pythonanywhere.com/api/ocr/extract",
@@ -272,7 +287,7 @@ const Upload: React.FC<UploadProps> = ({
             console.error("Error:", data);
             alert(`Request failed: ${data.error || "Unknown error"}`);
           }
-        } while (!isValidLaTeX(tmpQuestionImage));
+        } while (!isValidLaTeX(tmpQuestionImage) && retryCount < MAX_RETRY);
       } else if (uploadType === "Answer") {
         const response = await axios.post(
           "https://ken6a03.pythonanywhere.com/api/ocr/extract_answer",
@@ -286,7 +301,7 @@ const Upload: React.FC<UploadProps> = ({
           setAnswerResponse(responseText);
 
           const payload = {
-            question: similarQuestion,
+            question: similarQuestion?.questions,
             final_answer: responseText?.final_answer,
             steps: responseText?.steps,
           };

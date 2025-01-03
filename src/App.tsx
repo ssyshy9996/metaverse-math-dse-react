@@ -110,6 +110,45 @@ const App: React.FC = () => {
         setIsLoading(false); // Stop loading
       }
     }
+
+    if (uploadType === "Answer") {
+      setIsLoading(true);
+      const payload = {
+        question: questionLatex,
+        final_answer: answerResponse?.final_answer,
+        steps: answerResponse?.steps,
+      };
+      try {
+        const response = await fetch(
+          "https://ken6a03.pythonanywhere.com/api/solution/evaluate",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          }
+        );
+
+        const data = await response.json();
+
+        if (response.ok) {
+          const evaluationData = data?.evaluation?.steps || [];
+          setEvaluation(evaluationData);
+        } else {
+          console.error("API Error:", data);
+          alert(`Request failed: ${data.error || "Unknown error"}`);
+          setEvaluation("");
+          return null;
+        }
+      } catch (error) {
+        console.error("Fetch Error:", error);
+        alert("An error occurred while connecting to the server.");
+        return null;
+      } finally {
+        setIsLoading(false); // Stop loading
+      }
+    }
   };
   const removeQuestionWithSolution = async () => {
     if (!question_bank_id) {
@@ -163,6 +202,7 @@ const App: React.FC = () => {
           setIsLoading={setIsLoading}
           setSolutionResponses={setSolutionResponses}
           setQuestionImage={setQuestionLatex}
+          answerResponse={answerResponse}
           setAnswerResponse={setAnswerResponse}
           setEvaluation={setEvaluation}
           setEvaluationCorrect={setEvaluationCorrect}
