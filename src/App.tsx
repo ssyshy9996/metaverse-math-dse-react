@@ -18,7 +18,7 @@ const calculateZoom = () => {
 const App: React.FC = () => {
   const [uploadType, setUploadType] = useState<string>("Question");
   const [solutionResponses, setSolutionResponses] = useState<string>("");
-  const [similarQuestion, setSimilarQuestion] = useState<string>("");
+  const [similarQuestion, setSimilarQuestion] = useState<any>("");
   const [questionLatex, setQuestionLatex] = useState<string>("");
   const [answerResponse, setAnswerResponse] = useState<any>("");
   const [evaluation, setEvaluation] = useState<string>("");
@@ -114,7 +114,7 @@ const App: React.FC = () => {
     if (uploadType === "Answer") {
       setIsLoading(true);
       const payload = {
-        question: questionLatex,
+        question: similarQuestion.questions,
         final_answer: answerResponse?.final_answer,
         steps: answerResponse?.steps,
       };

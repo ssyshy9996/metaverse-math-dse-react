@@ -183,7 +183,6 @@ const CPanel: React.FC<Props> = ({
   }, [solutionResponses]);
 
   const handleEvaluateSolution = async () => {
-
     // const payload = {
     //   question: similarQuestion,
     // };
@@ -234,7 +233,7 @@ const CPanel: React.FC<Props> = ({
           data-tooltip-content={"Refresh when page is blank or missing content"}
           data-tooltip-id="tooltip"
         >
-          {evaluation ? (
+          {evaluation || solutionResponses ? (
             <RefreshOnHover
               className="font-bold text-4xl ml-2 text-end"
               text="C"
@@ -298,7 +297,7 @@ const CPanel: React.FC<Props> = ({
         {/* Solution Button */}
         {evaluation && (
           <button
-            className="absolute bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+            className="fixed bottom-20 right-20 bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 hover:opacity-50"
             onClick={handleEvaluateSolution}
           >
             Sample Answer

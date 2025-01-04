@@ -18,7 +18,7 @@ interface Props {
   uploadType: string;
   disabledGenerateButton: boolean;
   removeQuestionWithSolution: () => void;
-  similarQuestion: string;
+  similarQuestion: any;
   setCapturedImage: (image: string | null) => void;
 }
 
@@ -131,7 +131,7 @@ const Action: React.FC<Props> = ({
   const postEvaluation = async () => {
     setIsLoading(true);
     const payload = {
-      question: similarQuestion,
+      question: similarQuestion.questions,
       final_answer: answerResponse?.final_answer,
       steps: answerResponse?.steps,
     };
