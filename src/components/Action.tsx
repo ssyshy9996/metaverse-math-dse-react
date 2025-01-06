@@ -150,6 +150,7 @@ const Action: React.FC<Props> = ({
       if (response.ok) {
         const evaluationData = data?.evaluation?.steps || [];
         setEvaluation(evaluationData);
+        setEvaluationCorrect(data?.evaluation?.final_answer);
       } else {
         console.error("API Error:", data);
         alert(`Request failed: ${data.error || "Unknown error"}`);

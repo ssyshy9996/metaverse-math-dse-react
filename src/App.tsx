@@ -33,7 +33,6 @@ const App: React.FC = () => {
     useState<boolean>(false);
   const [base64Image, setBase64Image] = useState<string | null>(null);
 
-
   var question_bank_id: string = "";
 
   useEffect(() => {
@@ -135,6 +134,7 @@ const App: React.FC = () => {
         if (response.ok) {
           const evaluationData = data?.evaluation?.steps || [];
           setEvaluation(evaluationData);
+          setEvaluationCorrect(data?.evaluation?.final_answer);
         } else {
           console.error("API Error:", data);
           alert(`Request failed: ${data.error || "Unknown error"}`);
