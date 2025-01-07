@@ -129,7 +129,7 @@ const BPanel: React.FC<Props> = ({
   useEffect(() => {
     // console.log("Editing:", edit);
     // console.log("Current questionImage:", questionImage);
-
+    if (edit) return;
     const tmpgeneratedQuestion = similarQuestion?.questions || "";
     const tmpmainquestion = questionImage || "";
     const tmpanswerSteps = answerResponse?.steps || [];
@@ -202,7 +202,7 @@ const BPanel: React.FC<Props> = ({
         }
         setIsLoading(false);
         // console.log("valid question", isValidLaTeX(tmpQuestionImage));
-      } while (!isValidLaTeX(tmpQuestionImage));
+      } while (!isValidLaTeX(tmpQuestionImage) && !edit);
     }
   };
   return (
@@ -211,7 +211,7 @@ const BPanel: React.FC<Props> = ({
         {isLoading && <ProgressBar isLoading={isLoading} />}
         {/* <h3 className="text-start font-bold text-4xl mr-2">B</h3> */}
 
-        {(answerSteps.length > 0 || mainQuestion) && similarQuestion==="" ? (
+        {(answerSteps.length > 0 || mainQuestion) && similarQuestion === "" ? (
           <div
             data-tooltip-content={
               "Refresh when page is blank or missing content"

@@ -26,6 +26,7 @@ interface UploadProps {
   capturedImage: string | null;
   setCapturedImage: (image: string | null) => void;
   setBase64Image: (image: string | null) => void;
+  edit: boolean;
 }
 
 const Upload: React.FC<UploadProps> = ({
@@ -48,6 +49,7 @@ const Upload: React.FC<UploadProps> = ({
   capturedImage,
   setCapturedImage,
   setBase64Image,
+  edit,
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [photoMode, setPhotoMode] = useState(false);
@@ -71,6 +73,8 @@ const Upload: React.FC<UploadProps> = ({
   };
 
   useEffect(() => {
+    console.log("hi")
+    if (edit) return;
     if (mainQuestionValid >= 2 && capturedImage) {
       handleSubmit(capturedImage);
     }

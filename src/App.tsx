@@ -216,6 +216,7 @@ const App: React.FC = () => {
           setCapturedImage={setCapturedImage}
           saveQuestionWithSolution={saveQuestionWithSolution}
           setBase64Image={setBase64Image}
+          edit={edit}
         />
         {/* Actions */}
         <div className="w-full sm:w-[67%] flex flex-col justify-between h-full min-h-screen">

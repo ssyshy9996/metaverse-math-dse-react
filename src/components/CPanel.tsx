@@ -118,7 +118,9 @@ const RenderSolutionSteps: React.FC<{ steps: string[] }> = ({ steps }) => (
             {normalizeSlashes(step)}
           </StaticMathField>
         ) : (
-          <p style={{ color: "red" }}>Invalid LaTeX: {step}</p>
+          <>
+            <p style={{ color: "red" }}>Invalid LaTeX: {step}</p>
+          </>
         )}
       </div>
     ))}
@@ -169,9 +171,8 @@ const CPanel: React.FC<Props> = ({
     );
 
     setSolutionFinalAnswer(normalizedSolutionFinalAnswer);
-    // console.log("before:", tmpsteps);
     tmpsteps = breaklineSteps(tmpsteps);
-    // console.log("after:", tmpsteps);
+    tmpsteps.filter((step: string) => step.trim() !== "");
     setSolutionSteps(tmpsteps);
     setTopic(tmptopic);
     if (!solutionFinalAnswerValid) {
@@ -233,7 +234,8 @@ const CPanel: React.FC<Props> = ({
           data-tooltip-content={"Refresh when page is blank or missing content"}
           data-tooltip-id="tooltip"
         >
-          {evaluation || solutionResponses ? (
+          {(solutionResponses && !evaluation) ||
+          (similarQuestion && evaluation) ? (
             <RefreshOnHover
               className="font-bold text-4xl ml-2 text-end"
               text="C"
