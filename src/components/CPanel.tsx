@@ -280,6 +280,23 @@ const CPanel: React.FC<Props> = ({
             >
               {topic}
             </h4>
+            {topic === "Algebraic Exponents with Rational Expression" && (
+              <>
+                <StaticMathField style={{ color: "blue" }}>
+                  {"1. \\text{using the law }\\left(ab\\right)^n=a^n b^n"}
+                </StaticMathField>
+                <StaticMathField style={{ color: "blue" }}>
+                  {
+                    "2. \\text{using the law }\\ a^{-n}=\\frac{1}{a^n},\\ \\frac{1}{a^{-n}}=a^n"
+                  }
+                </StaticMathField>
+                <StaticMathField style={{ color: "blue" }}>
+                  {
+                    "3. \\text{using the law }\\frac{a^m}{a^n} =a^{m-n},\\ a^m a^n=a^{m+n}"
+                  }
+                </StaticMathField>
+              </>
+            )}
             <RenderSolutionSteps steps={solutionSteps} />
             <h4 className="text-lg font-medium mb-2">Final Answer:</h4>
             {isValidLaTeX(normalizeSlashes(solutionFinalAnswer)) ? (
